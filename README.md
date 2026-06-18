@@ -16,5 +16,10 @@ web-project for learning Django in Web Dev 2026/1
     -201 created
     -400 bad request
     -404 not found
-    -405 method not allowed
+    -405 method not allowedง 
     -500 internal server error
+
+## คำสั่ง git 
+    - git add .
+    - git commit -m "message"
+    - git push origin main

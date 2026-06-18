@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import render
 from django.http import HttpResponse
 
 def info(request):
@@ -25,11 +26,16 @@ def info(request):
         res += f"<p>{name}: {value}</p>"
     return HttpResponse(res)
 
+def home(request):
+    return render(request, 'home.html')
 
-
+def index(request):
+    return render(request, 'index.html')
 
 
 urlpatterns = [
+    path('', index),
+    path('home/', home),
     path('info/', info),
     path('admin/', admin.site.urls),
 ]

@@ -1,0 +1,1870 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chopee Thailand | ช้อปปิ้งออนไลน์ที่คล้าย Shopee ที่สุด</title>
+    
+    <!-- Google Fonts: Inter and Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        :root {
+            --shopee-orange: #ee4d2d;
+            --shopee-orange-hover: #f05d40;
+            --shopee-light-orange: #ffebd6;
+            --shopee-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --text-muted: #b0b0b0;
+            --border-color: #e8e8e8;
+            --accent-red: #ff424e;
+            --accent-green: #26a69a;
+            --shadow-sm: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Prompt', 'Inter', sans-serif;
+            background-color: var(--shopee-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- HEADER SECTION --- */
+        header {
+            background: linear-gradient(-180deg, #f53d2d, #f63);
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .header-top-left, .header-top-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-top-left a:hover, .header-top-right a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px;
+            gap: 24px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 34px;
+        }
+
+        .search-container {
+            flex-grow: 1;
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 4px;
+            display: flex;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-family: inherit;
+            border-radius: 4px;
+        }
+
+        .search-button {
+            background-color: var(--shopee-orange);
+            color: #ffffff;
+            border: none;
+            outline: none;
+            padding: 0 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-button:hover {
+            background-color: var(--shopee-orange-hover);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            cursor: pointer;
+            font-size: 28px;
+            padding: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .cart-icon-wrapper:hover {
+            transform: scale(1.08);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: 2px;
+            right: 0px;
+            background-color: #ffffff;
+            color: var(--shopee-orange);
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--shopee-orange);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* --- MAIN CONTAINER --- */
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 0 16px;
+            flex-grow: 1;
+        }
+
+        /* --- CAROUSEL BANNER --- */
+        .promo-carousel {
+            position: relative;
+            height: 320px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .carousel-content {
+            color: #ffffff;
+            max-width: 500px;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-title {
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .carousel-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 24px;
+        }
+
+        .carousel-btn {
+            background-color: var(--shopee-orange);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-block;
+            transition: var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--shopee-orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .carousel-dot.active {
+            background-color: #ffffff;
+            transform: scale(1.2);
+        }
+
+        /* --- CATEGORIES SECTION --- */
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .categories-grid {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            overflow-x: auto;
+            padding: 16px 8px;
+            margin-bottom: 24px;
+            scrollbar-width: thin;
+        }
+
+        .category-item {
+            flex: 0 0 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            padding: 12px 6px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .category-item:hover, .category-item.active {
+            color: var(--shopee-orange);
+            background-color: var(--shopee-light-orange);
+            transform: translateY(-3px);
+        }
+
+        .category-icon-box {
+            width: 50px;
+            height: 50px;
+            background-color: #f6f6f6;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+        }
+
+        .category-item:hover .category-icon-box, .category-item.active .category-icon-box {
+            background-color: #ffffff;
+            color: var(--shopee-orange);
+        }
+
+        .category-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* --- FLASH SALE Countdown --- */
+        .flash-sale-bar {
+            background: linear-gradient(90deg, #ff4e20, #ff8a00);
+            border-radius: 8px 8px 0 0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .flash-sale-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .flash-timer {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-style: normal;
+        }
+
+        .timer-box {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .flash-sale-container {
+            background-color: #ffffff;
+            border-radius: 0 0 8px 8px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 28px;
+        }
+
+        /* --- PRODUCT FILTER TABS --- */
+        .filter-tabs {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .filter-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-right: 8px;
+        }
+
+        .filter-btn {
+            background-color: #fdfdfd;
+            border: 1px solid var(--border-color);
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--shopee-orange);
+            color: var(--shopee-orange);
+        }
+
+        .filter-btn.active {
+            background-color: var(--shopee-orange);
+            color: #ffffff;
+            border-color: var(--shopee-orange);
+        }
+
+        .sort-select {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* --- PRODUCT GRID --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            border: 1px solid transparent;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--shopee-orange);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* Square aspect ratio */
+            overflow: hidden;
+            background-color: #eaeaea;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(ffd839, 0.95);
+            color: var(--shopee-orange);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 6px;
+            border-bottom-left-radius: 4px;
+            text-align: center;
+            line-height: 1.1;
+            z-index: 10;
+        }
+
+        .discount-text {
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 38px;
+        }
+
+        .product-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .original-price {
+            font-size: 12px;
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .current-price {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--shopee-orange);
+        }
+
+        .product-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .rating-stars {
+            color: #ffcc00;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .rating-stars span {
+            color: var(--text-secondary);
+            font-size: 11px;
+            margin-left: 2px;
+        }
+
+        .location-tag {
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        /* --- DETAIL MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            color: var(--shopee-orange);
+        }
+
+        .modal-body {
+            display: flex;
+            overflow-y: auto;
+            padding: 32px;
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .modal-image-col {
+                width: 100% !important;
+            }
+        }
+
+        .modal-image-col {
+            width: 45%;
+            flex-shrink: 0;
+        }
+
+        .modal-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-info-col {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .modal-ratings-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .modal-rating-score {
+            color: var(--shopee-orange);
+            font-weight: 600;
+            border-bottom: 1px solid var(--shopee-orange);
+        }
+
+        .modal-price-box {
+            background-color: #fafafa;
+            padding: 16px 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-original-price {
+            font-size: 14px;
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .modal-current-price {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--shopee-orange);
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .qty-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            width: 120px;
+            height: 32px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 100%;
+            background-color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition-smooth);
+        }
+
+        .qty-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .qty-input {
+            flex-grow: 1;
+            width: 40px;
+            height: 100%;
+            border: none;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            text-align: center;
+            outline: none;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: auto;
+            padding-top: 16px;
+        }
+
+        .btn-secondary-action {
+            flex: 1;
+            border: 1px solid var(--shopee-orange);
+            background-color: var(--shopee-light-orange);
+            color: var(--shopee-orange);
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary-action:hover {
+            background-color: #ffe3c6;
+        }
+
+        .btn-primary-action {
+            flex: 1;
+            background-color: var(--shopee-orange);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-action:hover {
+            background-color: var(--shopee-orange-hover);
+        }
+
+        /* --- CART SIDEBAR DRAWER --- */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 420px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+            z-index: 2500;
+            transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 480px) {
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .drawer-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 2400;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drawer-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .drawer-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drawer-close {
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+        }
+
+        .drawer-close:hover {
+            color: var(--shopee-orange);
+        }
+
+        .drawer-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cart-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            gap: 16px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty i {
+            font-size: 64px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            align-items: center;
+        }
+
+        .cart-item-checkbox {
+            accent-color: var(--shopee-orange);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .cart-item-img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cart-item-title {
+            font-size: 13px;
+            font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cart-item-price {
+            font-size: 14px;
+            color: var(--shopee-orange);
+            font-weight: 600;
+        }
+
+        .cart-item-qty-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .cart-item-delete {
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 16px;
+        }
+
+        .cart-item-delete:hover {
+            color: var(--accent-red);
+        }
+
+        .drawer-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .cart-total-price {
+            color: var(--shopee-orange);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .btn-checkout {
+            background: linear-gradient(90deg, #ff5722, #ff4300);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-checkout:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-checkout:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        /* --- CHECKOUT SUCCESS OVERLAY --- */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .success-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .success-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--shadow-md);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .success-overlay.active .success-card {
+            transform: scale(1);
+        }
+
+        .success-icon-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(38, 166, 154, 0.1);
+            color: var(--accent-green);
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            animation: pulse-success 1.5s infinite;
+        }
+
+        @keyframes pulse-success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(38, 166, 154, 0.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .success-msg {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .success-total {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--shopee-orange);
+            margin: 12px 0;
+        }
+
+        .btn-success-close {
+            background-color: var(--text-primary);
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-success-close:hover {
+            opacity: 0.9;
+        }
+
+        /* Confetti canvas */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2999;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #fbfbfb;
+            border-top: 4px solid var(--shopee-orange);
+            padding: 40px 16px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .footer-col-title {
+            font-weight: 700;
+            color: #4a4a4a;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--shopee-orange);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 32px auto 0 auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-top">
+            <div class="header-top-left">
+                <a href="#"><i class="bi bi-shop"></i> Seller Centre</a>
+                <a href="#"><i class="bi bi-download"></i> ดาวน์โหลด</a>
+                <a href="#">ติดตามเราบน <i class="bi bi-facebook"></i> <i class="bi bi-instagram"></i></a>
+            </div>
+            <div class="header-top-right">
+                <a href="#"><i class="bi bi-bell"></i> การแจ้งเตือน</a>
+                <a href="#"><i class="bi bi-question-circle"></i> ช่วยเหลือ</a>
+                <a href="#"><i class="bi bi-globe"></i> ไทย</a>
+                <a href="#" style="font-weight: 500;">สมัครสมาชิก</a>
+                <a href="#" style="font-weight: 500;">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="logo">
+                <i class="bi bi-bag-heart-fill"></i>
+                <span>Chopee</span>
+            </div>
+            
+            <form action="" method="GET" class="search-container">
+                {% if selected_category %}
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                {% endif %}
+                {% if selected_sort %}
+                    <input type="hidden" name="sort" value="{{ selected_sort }}">
+                {% endif %}
+                <input type="text" name="q" class="search-input" placeholder="ลูกค้าใหม่ แจกโค้ดลด 50% ช้อปเลย!..." value="{{ query }}">
+                <button type="submit" class="search-button">
+                    <i class="bi bi-search"></i> ค้นหา
+                </button>
+            </form>
+            
+            <div class="cart-icon-wrapper" onclick="toggleCartDrawer(true)">
+                <i class="bi bi-cart3"></i>
+                <div class="cart-badge" id="cart-count">0</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- PROMO CAROUSEL -->
+        <section class="promo-carousel">
+            <div class="carousel-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80');">
+                <div class="carousel-content">
+                    <div class="carousel-title">Super Sale 7.7<br>ลดสนั่นเว็บ!</div>
+                    <div class="carousel-subtitle">โค้ดส่งฟรี* ไม่มีขั้นต่ำ พร้อมส่วนลดเพิ่มสูงสุด 50% ตลอดทั้งเดือนนี้</div>
+                    <button class="carousel-btn" onclick="scrollToCatalog()">ช้อปเลย</button>
+                </div>
+            </div>
+            <div class="carousel-slide" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80');">
+                <div class="carousel-content">
+                    <div class="carousel-title">Fashion Trends<br>สไตล์โมเดิร์น</div>
+                    <div class="carousel-subtitle">คอลเลกชันเสื้อผ้า รองเท้า และกระเป๋าแฟชั่นใหม่ล่าสุด ลดสูงสุด 40%</div>
+                    <button class="carousel-btn" onclick="scrollToCatalog()">ค้นหาคอลเลกชัน</button>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <div class="carousel-dot active" onclick="setSlide(0)"></div>
+                <div class="carousel-dot" onclick="setSlide(1)"></div>
+            </div>
+        </section>
+
+        <!-- CATEGORIES SECTION -->
+        <h2 class="section-title"><i class="bi bi-grid-fill"></i> หมวดหมู่สินค้า</h2>
+        <div class="categories-grid">
+            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}{% endif %}" class="category-item {% if not selected_category %}active{% endif %}">
+                <div class="category-icon-box">
+                    <i class="bi bi-grid"></i>
+                </div>
+                <div class="category-name">ทั้งหมด</div>
+            </a>
+            {% for cat in categories %}
+            <a href="?category={{ cat.id }}{% if query %}&q={{ query }}{% endif %}{% if selected_sort %}&sort={{ selected_sort }}{% endif %}" class="category-item {% if selected_category == cat.id %}active{% endif %}">
+                <div class="category-icon-box">
+                    <i class="bi {% if cat.icon %}{{ cat.icon }}{% else %}bi-tag{% endif %}"></i>
+                </div>
+                <div class="category-name">{{ cat.name }}</div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- FLASH SALE COUNTDOWN -->
+        <div class="flash-sale-bar">
+            <div class="flash-sale-title">
+                <i class="bi bi-lightning-charge-fill"></i> FLASH SALE
+                <div class="flash-timer" id="flash-timer">
+                    <span class="timer-box" id="hours">02</span> : 
+                    <span class="timer-box" id="minutes">45</span> : 
+                    <span class="timer-box" id="seconds">12</span>
+                </div>
+            </div>
+            <div style="font-size: 14px; font-weight: 500; cursor: pointer;">ดูทั้งหมด <i class="bi bi-chevron-right"></i></div>
+        </div>
+        <div class="flash-sale-container">
+            <div class="products-grid" style="margin-bottom: 0;">
+                {% for product in products|slice:":2" %}
+                <div class="product-card" onclick="openProductDetail(this)"
+                     data-id="{{ product.id }}"
+                     data-name="{{ product.name }}"
+                     data-description="{{ product.description }}"
+                     data-price="{{ product.price }}"
+                     data-original-price="{{ product.original_price }}"
+                     data-image="{% static 'chopee/images/' %}{{ product.image }}"
+                     data-rating="{{ product.rating }}"
+                     data-sold="{{ product.sold_count }}"
+                     data-location="{{ product.location }}"
+                     data-stock="{{ product.stock }}">
+                    
+                    <div class="product-image-container">
+                        <img class="product-img" src="{% static 'chopee/images/' %}{{ product.image }}" alt="{{ product.name }}">
+                        <div class="discount-badge">
+                            <div>ลด 50%</div>
+                            <div class="discount-text">Flash</div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <div class="product-price-row">
+                            <span class="original-price">฿{{ product.original_price }}</span>
+                            <span class="current-price">฿{{ product.price }}</span>
+                        </div>
+                        <div class="product-meta-row">
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill"></i>
+                                <span>{{ product.rating }}</span>
+                            </div>
+                            <span>ขายแล้ว {{ product.sold_count }} ชิ้น</span>
+                        </div>
+                        <div class="location-tag">{{ product.location }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- PRODUCT CATALOG -->
+        <div id="catalog-section" style="margin-top: 40px;">
+            <h2 class="section-title"><i class="bi bi-bag-fill"></i> สินค้าแนะนำประจำวัน</h2>
+            
+            <div class="filter-tabs">
+                <div class="filter-left">
+                    <span class="filter-label">เรียงโดย</span>
+                    <a href="?sort=popular{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="filter-btn {% if selected_sort == 'popular' or not selected_sort %}active{% endif %}">ยอดนิยม</a>
+                    <a href="?sort=latest{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="filter-btn {% if selected_sort == 'latest' %}active{% endif %}">ล่าสุด</a>
+                    <a href="?sort=sales{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="filter-btn {% if selected_sort == 'sales' %}active{% endif %}">สินค้าขายดี</a>
+                </div>
+                
+                <select class="sort-select" onchange="location = this.value;">
+                    <option value="" disabled selected>กรองตามราคา</option>
+                    <option value="?sort=price_asc{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" {% if selected_sort == 'price_asc' %}selected{% endif %}>ราคา: จากต่ำไปสูง</option>
+                    <option value="?sort=price_desc{% if query %}&q={{ query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" {% if selected_sort == 'price_desc' %}selected{% endif %}>ราคา: จากสูงไปต่ำ</option>
+                </select>
+            </div>
+            
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="product-card" onclick="openProductDetail(this)"
+                     data-id="{{ product.id }}"
+                     data-name="{{ product.name }}"
+                     data-description="{{ product.description }}"
+                     data-price="{{ product.price }}"
+                     data-original-price="{{ product.original_price }}"
+                     data-image="{% static 'chopee/images/' %}{{ product.image }}"
+                     data-rating="{{ product.rating }}"
+                     data-sold="{{ product.sold_count }}"
+                     data-location="{{ product.location }}"
+                     data-stock="{{ product.stock }}">
+                    
+                    <div class="product-image-container">
+                        <img class="product-img" src="{% static 'chopee/images/' %}{{ product.image }}" alt="{{ product.name }}">
+                        {% if product.original_price %}
+                        <div class="discount-badge">
+                            <div>ลด</div>
+                            <div style="font-size: 13px;">50%</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <div class="product-price-row">
+                            {% if product.original_price %}
+                            <span class="original-price">฿{{ product.original_price }}</span>
+                            {% endif %}
+                            <span class="current-price">฿{{ product.price }}</span>
+                        </div>
+                        <div class="product-meta-row">
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill"></i>
+                                <span>{{ product.rating }}</span>
+                            </div>
+                            <span>ขายแล้ว {{ product.sold_count }} ชิ้น</span>
+                        </div>
+                        <div class="location-tag">{{ product.location }}</div>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-secondary);">
+                    <i class="bi bi-search" style="font-size: 48px; color: var(--text-muted); display: block; margin-bottom: 16px;"></i>
+                    <p style="font-size: 16px;">ไม่พบสินค้าที่คุณกำลังค้นหา ลองค้นหาด้วยคำอื่นดูสิ</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <!-- PRODUCT DETAIL OVERLAY MODAL -->
+    <div class="modal-overlay" id="product-detail-modal" onclick="closeProductDetail(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeProductDetail(null)"><i class="bi bi-x-lg"></i></div>
+            
+            <div class="modal-body">
+                <div class="modal-image-col">
+                    <img class="modal-img" id="detail-img" src="" alt="Product Image">
+                </div>
+                <div class="modal-info-col">
+                    <h2 class="modal-title" id="detail-title">ชื่อสินค้า</h2>
+                    <div class="modal-ratings-row">
+                        <div>คะแนนผู้ใช้: <span class="modal-rating-score" id="detail-rating">4.8</span> <i class="bi bi-star-fill" style="color: #ffcc00;"></i></div>
+                        <div>|</div>
+                        <div id="detail-sold">ขายแล้ว 1.2 พัน ชิ้น</div>
+                    </div>
+                    
+                    <div class="modal-price-box">
+                        <span class="modal-original-price" id="detail-original-price">฿2,500</span>
+                        <span class="modal-current-price" id="detail-price">฿1,290</span>
+                    </div>
+                    
+                    <p class="modal-desc" id="detail-description">รายละเอียดสินค้าอย่างละเอียด</p>
+                    
+                    <div class="qty-row">
+                        <span>จำนวน:</span>
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="changeDetailQty(-1)"><i class="bi bi-minus"></i></button>
+                            <input type="text" class="qty-input" id="detail-qty" value="1" readonly>
+                            <button class="qty-btn" onclick="changeDetailQty(1)"><i class="bi bi-plus"></i></button>
+                        </div>
+                        <span id="detail-stock" style="color: var(--text-muted); font-size: 13px;">มีสินค้าทั้งหมด 15 ชิ้น</span>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn-secondary-action" id="btn-add-cart-detail">
+                            <i class="bi bi-cart-plus"></i> เพิ่มไปยังตะกร้า
+                        </button>
+                        <button class="btn-primary-action" id="btn-buy-now">
+                            ซื้อทันที
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR DRAWER -->
+    <div class="drawer-backdrop" id="cart-backdrop" onclick="toggleCartDrawer(false)"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="drawer-header">
+            <div class="drawer-title"><i class="bi bi-cart3"></i> ตะกร้าสินค้าของคุณ</div>
+            <div class="drawer-close" onclick="toggleCartDrawer(false)"><i class="bi bi-x-lg"></i></div>
+        </div>
+        
+        <div class="drawer-content" id="cart-items-container">
+            <!-- Dynamic Cart Items go here -->
+        </div>
+        
+        <div class="drawer-footer">
+            <div class="cart-summary-row">
+                <span>ยอดรวมทั้งหมด:</span>
+                <span class="cart-total-price" id="cart-total-price">฿0.00</span>
+            </div>
+            <button class="btn-checkout" id="btn-checkout" onclick="performCheckout()" disabled>
+                <i class="bi bi-credit-card-2-back"></i> สั่งซื้อสินค้า
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT SUCCESS OVERLAY -->
+    <div class="success-overlay" id="success-overlay">
+        <canvas id="confetti-canvas"></canvas>
+        <div class="success-card">
+            <div class="success-icon-box">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <h2 class="success-title">สั่งซื้อสินค้าสำเร็จ!</h2>
+            <p class="success-msg">ทางทีมงาน Chopee ได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว สินค้าจะเริ่มถูกจัดเตรียมและจัดส่งภายใน 24 ชั่วโมง</p>
+            <div class="success-total" id="success-total">ยอดชำระ: ฿0.00</div>
+            <button class="btn-success-close" onclick="closeSuccessOverlay()">ช้อปปิ้งต่อ</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-col-title">ฝ่ายบริการลูกค้า</div>
+                <ul class="footer-links">
+                    <li><a href="#">ศูนย์ช่วยเหลือ</a></li>
+                    <li><a href="#">ช่องทางการชำระเงิน</a></li>
+                    <li><a href="#">การสั่งซื้อสินค้าและจัดส่ง</a></li>
+                    <li><a href="#">การคืนเงินและคืนสินค้า</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">เกี่ยวกับ Chopee</div>
+                <ul class="footer-links">
+                    <li><a href="#">เกี่ยวกับเรา</a></li>
+                    <li><a href="#">ร่วมงานกับเรา</a></li>
+                    <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+                    <li><a href="#">Chopee Mall</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">วิธีการชำระเงิน</div>
+                <div style="font-size: 24px; display: flex; gap: 12px; color: var(--text-secondary); margin-top: 8px;">
+                    <i class="bi bi-credit-card"></i>
+                    <i class="bi bi-wallet2"></i>
+                    <i class="bi bi-bank"></i>
+                    <i class="bi bi-paypal"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Chopee. สงวนลิขสิทธิ์ทั้งหมด. (Shopee Clone โดย Antigravity)</div>
+            <div>ประเทศไทย | สิงคโปร์ | มาเลเซีย | เวียดนาม | ฟิลิปปินส์</div>
+        </div>
+    </footer>
+
+    <script>
+        // --- PROMO CAROUSEL LOGIC ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        function setSlide(index) {
+            showSlide(index);
+        }
+        
+        // Auto Play
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        function scrollToCatalog() {
+            document.getElementById('catalog-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- COUNTDOWN TIMER ---
+        function startCountdown() {
+            let hours = 2, minutes = 45, seconds = 12;
+            const hBox = document.getElementById('hours');
+            const mBox = document.getElementById('minutes');
+            const sBox = document.getElementById('seconds');
+            
+            setInterval(() => {
+                if (seconds > 0) {
+                    seconds--;
+                } else {
+                    seconds = 59;
+                    if (minutes > 0) {
+                        minutes--;
+                    } else {
+                        minutes = 59;
+                        if (hours > 0) {
+                            hours--;
+                        } else {
+                            hours = 2; // Reset for demo purposes
+                        }
+                    }
+                }
+                
+                hBox.textContent = String(hours).padStart(2, '0');
+                mBox.textContent = String(minutes).padStart(2, '0');
+                sBox.textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+        startCountdown();
+
+        // --- PRODUCT DETAILS MODAL ---
+        let selectedProduct = null;
+        const detailModal = document.getElementById('product-detail-modal');
+        const qtyInput = document.getElementById('detail-qty');
+
+        function openProductDetail(card) {
+            selectedProduct = {
+                id: card.dataset.id,
+                name: card.dataset.name,
+                description: card.dataset.description,
+                price: parseFloat(card.dataset.price),
+                originalPrice: card.dataset.originalPrice ? parseFloat(card.dataset.originalPrice) : null,
+                image: card.dataset.image,
+                rating: card.dataset.rating,
+                sold: card.dataset.sold,
+                location: card.dataset.location,
+                stock: parseInt(card.dataset.stock)
+            };
+
+            document.getElementById('detail-img').src = selectedProduct.image;
+            document.getElementById('detail-title').textContent = selectedProduct.name;
+            document.getElementById('detail-rating').textContent = selectedProduct.rating;
+            document.getElementById('detail-sold').textContent = `ขายแล้ว ${selectedProduct.sold} ชิ้น`;
+            document.getElementById('detail-price').textContent = `฿${selectedProduct.price.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+            
+            const origPriceEl = document.getElementById('detail-original-price');
+            if (selectedProduct.originalPrice) {
+                origPriceEl.textContent = `฿${selectedProduct.originalPrice.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+                origPriceEl.style.display = 'inline';
+            } else {
+                origPriceEl.style.display = 'none';
+            }
+
+            document.getElementById('detail-description').textContent = selectedProduct.description || "ไม่มีรายละเอียดเพิ่มเติมสำหรับสินค้านี้";
+            document.getElementById('detail-stock').textContent = `มีสินค้าทั้งหมด ${selectedProduct.stock} ชิ้น`;
+            qtyInput.value = 1;
+
+            detailModal.classList.add('active');
+        }
+
+        function closeProductDetail(e) {
+            if (e === null || e.target === detailModal) {
+                detailModal.classList.remove('active');
+            }
+        }
+
+        function changeDetailQty(amount) {
+            let current = parseInt(qtyInput.value);
+            let target = current + amount;
+            if (target >= 1 && target <= selectedProduct.stock) {
+                qtyInput.value = target;
+            }
+        }
+
+        // --- CART DATA STATE MANAGEMENT (Local Storage) ---
+        let cart = JSON.parse(localStorage.getItem('chopee_cart')) || [];
+
+        function saveCart() {
+            localStorage.setItem('chopee_cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function updateCartCount() {
+            const countEl = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countEl.textContent = totalItems;
+        }
+
+        function addToCart(product, qty) {
+            const existingIndex = cart.findIndex(item => item.id === product.id);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += qty;
+                if (cart[existingIndex].quantity > product.stock) {
+                    cart[existingIndex].quantity = product.stock;
+                }
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    stock: product.stock,
+                    quantity: qty,
+                    selected: true // checked by default
+                });
+            }
+            saveCart();
+        }
+
+        // Event hooks
+        document.getElementById('btn-add-cart-detail').addEventListener('click', () => {
+            if (selectedProduct) {
+                const qty = parseInt(qtyInput.value);
+                addToCart(selectedProduct, qty);
+                detailModal.classList.remove('active');
+                toggleCartDrawer(true);
+            }
+        });
+
+        document.getElementById('btn-buy-now').addEventListener('click', () => {
+            if (selectedProduct) {
+                const qty = parseInt(qtyInput.value);
+                // clear others or just add and select
+                addToCart(selectedProduct, qty);
+                detailModal.classList.remove('active');
+                toggleCartDrawer(true);
+            }
+        });
+
+        // --- CART DRAWER RENDER & INTERACTIONS ---
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartBackdrop = document.getElementById('cart-backdrop');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const checkoutBtn = document.getElementById('btn-checkout');
+
+        function toggleCartDrawer(open) {
+            if (open) {
+                cartDrawer.classList.add('active');
+                cartBackdrop.classList.add('active');
+                renderCartItems();
+            } else {
+                cartDrawer.classList.remove('active');
+                cartBackdrop.classList.remove('active');
+            }
+        }
+
+        function renderCartItems() {
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="bi bi-cart-x"></i>
+                        <p>ไม่มีสินค้าในตะกร้าของคุณ</p>
+                        <button class="carousel-btn" style="padding:8px 16px; font-size:13px;" onclick="toggleCartDrawer(false)">เริ่มช้อปปิ้งเลย</button>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+                document.getElementById('cart-total-price').textContent = '฿0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            let hasSelected = false;
+
+            cart.forEach((item, index) => {
+                if (item.selected) {
+                    subtotal += item.price * item.quantity;
+                    hasSelected = true;
+                }
+
+                const itemHTML = `
+                    <div class="cart-item">
+                        <input type="checkbox" class="cart-item-checkbox" ${item.selected ? 'checked' : ''} onchange="toggleItemSelect(${index})">
+                        <img class="cart-item-img" src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <h4 class="cart-item-title">${item.name}</h4>
+                            <div class="cart-item-price">฿${item.price.toLocaleString('th-TH', {minimumFractionDigits: 2})}</div>
+                            <div class="cart-item-qty-row">
+                                <div class="qty-selector" style="width: 100px; height: 28px;">
+                                    <button class="qty-btn" onclick="updateItemQty(${index}, -1)" style="width:28px;"><i class="bi bi-minus"></i></button>
+                                    <input type="text" class="qty-input" value="${item.quantity}" readonly>
+                                    <button class="qty-btn" onclick="updateItemQty(${index}, 1)" style="width:28px;"><i class="bi bi-plus"></i></button>
+                                </div>
+                                <i class="bi bi-trash cart-item-delete" onclick="removeItem(${index})"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.insertAdjacentHTML('beforeend', itemHTML);
+            });
+
+            document.getElementById('cart-total-price').textContent = `฿${subtotal.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+            checkoutBtn.disabled = !hasSelected;
+        }
+
+        function toggleItemSelect(index) {
+            cart[index].selected = !cart[index].selected;
+            saveCart();
+        }
+
+        function updateItemQty(index, amount) {
+            let newQty = cart[index].quantity + amount;
+            if (newQty >= 1 && newQty <= cart[index].stock) {
+                cart[index].quantity = newQty;
+                saveCart();
+            }
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveCart();
+        }
+
+        // --- CHECKOUT & CONFETTI ANIMATION ---
+        const successOverlay = document.getElementById('success-overlay');
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+        let confetti = [];
+        const colors = ['#f53d2d', '#f63', '#ffcc00', '#26a69a', '#29b6f6', '#ec407a'];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function createConfetti() {
+            confetti = [];
+            for (let i = 0; i < 150; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+
+            confetti.forEach((p) => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.tilt = Math.sin(p.tiltAngle - p.r / 2) * 5;
+
+                if (p.y < canvas.height) {
+                    active = true;
+                }
+
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                ctx.stroke();
+            });
+
+            if (active) {
+                animationFrameId = requestAnimationFrame(drawConfetti);
+            }
+        }
+
+        function performCheckout() {
+            const selectedItems = cart.filter(item => item.selected);
+            const total = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            document.getElementById('success-total').textContent = `ยอดชำระ: ฿${total.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+            
+            // Remove selected items from cart
+            cart = cart.filter(item => !item.selected);
+            saveCart();
+            toggleCartDrawer(false);
+            
+            // Show Success screen
+            successOverlay.classList.add('active');
+            resizeCanvas();
+            createConfetti();
+            drawConfetti();
+        }
+
+        function closeSuccessOverlay() {
+            successOverlay.classList.remove('active');
+            cancelAnimationFrame(animationFrameId);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Initialize state
+        updateCartCount();
+    </script>
+</body>
+</html>

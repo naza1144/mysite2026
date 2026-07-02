@@ -1,41 +1,19 @@
-# mysite2026
-web-project for learning Django in Web Dev 2026/1
-
-# mysite2026
-## คำสั่งสร้าง project ทั้งหมด
-
-    mkdir mysite2026
-    cd mysite2026
-    uv init
-    uv add django
-    uv run django-admin startproject mysite2026 .
-    uv run manage.py startapp myapp
-    
-
-## คำสั่งที่ใช้
-    uv run manage.py runserver [IP_ADDRESS]:80
-    
-## http methods
-    -post
-    -put
-    -get
-    -delete
-
-## status code
-    -200 ok
-    -201 created
-    -400 bad request
-    -404 not found
-    -405 method not allowedง 
-    -500 internal server error
-
-## คำสั่ง git 
-    - git add .
-    - git commit -m "message"
-    - git push origin main
 
 
-## คำสั่งสร้างแอปใหม่ชื่อ shopes
-    uv run manage.py startapp shopes
+   D:
+   mkdir Github
+   cd Github
+   mkdir wichit2s
+   cd wichit2s
+   gh repo clone wichit2s/mysite2026
+   cd mysite2026
+   uv init
+   uv add django
+   uv run django-admin startproject mysite .
+   uv run manage.py runserver 0.0.0.0:80
+
+## คำสั่งสร้างแอปใหม่ชื่อ chopee
+
+    uv run manage.py startapp chopee
     uv run manage.py migrate
-    uv run manage.py runserver 8080
+    uv run manage.py runserver 0.0.0.0:80

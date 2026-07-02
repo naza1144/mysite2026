@@ -1,5 +1,5 @@
 """
-URL configuration for mysite2026 project.
+URL configuration for mysite project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -16,22 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, FileResponse
-from django.conf import settings
-from django.conf.urls.static import static
-import os
-from .views import *
+# pyrefly: ignore [missing-import]
+# from .views import *
+from . import views
 
 urlpatterns = [
-    path('', index),
-    path('shopping/', include('shopes.urls', namespace='shopping')),
-    path('shopes/', include('shopes.urls', namespace='shopes')),
-    path('home/', home),
-    path('info/', info),
-    path('pdf/', pdf_view),
+    path('', views.home),
+    path('info/', views.info),
+    path('shopping/', views.shopping),
+    path('lucksoot/', views.lucksoot_pdf),
+    path('chopee/', include('chopee.urls')),
     path('admin/', admin.site.urls),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

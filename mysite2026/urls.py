@@ -17,25 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import render
-from django.http import HttpResponse
-
-def info(request):
-    ip_addres = request.META['REMOTE_ADDR']
-    res = f"<h1>you Ip address is : {ip_addres}</h1>"
-    for name, value in request.META.items():
-        res += f"<p>{name}: {value}</p>"
-    return HttpResponse(res)
-
-def home(request):
-    return render(request, 'home.html')
-
-def index(request):
-    return render(request, 'index.html')
-
+from django.http import HttpResponse, JsonResponse, FileResponse
+import os
+from .views import *
 
 urlpatterns = [
     path('', index),
+    path('shopping', shopping),
     path('home/', home),
     path('info/', info),
+    path('pdf/', pdf_view),
     path('admin/', admin.site.urls),
 ]

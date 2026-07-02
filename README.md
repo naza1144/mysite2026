@@ -33,3 +33,9 @@ web-project for learning Django in Web Dev 2026/1
     - git add .
     - git commit -m "message"
     - git push origin main
+
+
+## คำสั่งสร้างแอปใหม่ชื่อ shopes
+    uv run manage.py startapp shopes
+    uv run manage.py migrate
+    uv run manage.py runserver 8080
